@@ -1,6 +1,6 @@
 # Habit_You_Dump
 > "31 nooby C++ habits you need to ditch" 유튜브 영상을 보며 정리한 내용입니다.   
-> "URL : https://www.youtube.com/watch?v=i_wDa2AS_8w&list=PLJ_usHaf3fgM5vOBPY-hXAjUy6SbgE-KG
+> "URL : https://www.youtube.com/watch?v=i_wDa2AS_8w&list=PLJ_usHaf3fgM5vOBPY-hXAjUy6SbgE-KG"
 > "블로그 (https://blog.naver.com/tjrgl/223686824211)" 에 내용을 정리하였습니다. ^^
 
 # 정리 목차
