@@ -1,6 +1,6 @@
-/**
- * @Title ¹ş¾î ³ª¾ß ÇÒ C++ ´ººñÀÇ ½À°ü
- * @brief 31°¡Áö C++ ´ººñ µéÀÌ ¹ö·Á¾ß ÇÏ´Â ½À°ü 31°¡Áö ¿¹Á¦
+ï»¿/**
+ * @Title ë²—ì–´ ë‚˜ì•¼ í•  C++ ë‰´ë¹„ì˜ ìŠµê´€
+ * @brief 31ê°€ì§€ C++ ë‰´ë¹„ ë“¤ì´ ë²„ë ¤ì•¼ í•˜ëŠ” ìŠµê´€ 31ê°€ì§€ ì˜ˆì œ
  * @URL https://www.youtube.com/watch?v=i_wDa2AS_8w&list=PLJ_usHaf3fgM5vOBPY-hXAjUy6SbgE-KG
  */
 
@@ -13,8 +13,8 @@
 /**
  * @no.1
  * @brief	using namespace std
- * @desc	namespaceÀÇ ¼±¾ğÀº global ÇÏ°Ô ÇÏ¸ç, Çì´õ¿¡ ÀÖÀ¸¸é Á¾¼Ó¼ºÀÌ »ı±â¹Ç·Î, Çì´õ¿¡ ¼±¾ğÇÏÁö ¸»ÀÚ
- *			¶ÇÇÑ »ç¿ëÇÏ´Â ºÎºĞ¸¸ ¼±¾ğÇØ¼­ »ç¿ëÇÏÀÚ
+ * @desc	namespaceì˜ ì„ ì–¸ì€ global í•˜ê²Œ í•˜ë©°, í—¤ë”ì— ìˆìœ¼ë©´ ì¢…ì†ì„±ì´ ìƒê¸°ë¯€ë¡œ, í—¤ë”ì— ì„ ì–¸í•˜ì§€ ë§ì
+ *			ë˜í•œ ì‚¬ìš©í•˜ëŠ” ë¶€ë¶„ë§Œ ì„ ì–¸í•´ì„œ ì‚¬ìš©í•˜ì
  */
 
 //using namespace std;
@@ -29,7 +29,7 @@ void using_namespace_std()
 /**
  * @no.2
  * @brief	using std endl in a loop
- * @desc	std endlÀº Ãâ·Â ¹öÆÛ¸¦ flush(½Ã°£À» ¸¹ÀÌ ¸ÔÀ½) ÇÏ¹Ç·Î ·çÇÁ ¾È¿¡¼­´Â »ç¿ëÇÏÁö ¾Ê´Â´Ù.
+ * @desc	std endlì€ ì¶œë ¥ ë²„í¼ë¥¼ flush(ì‹œê°„ì„ ë§ì´ ë¨¹ìŒ) í•˜ë¯€ë¡œ ë£¨í”„ ì•ˆì—ì„œëŠ” ì‚¬ìš©í•˜ì§€ ì•ŠëŠ”ë‹¤.
  */
 void print_range(int start, int end)
 {
@@ -44,7 +44,7 @@ void print_range(int start, int end)
 /**
  * @no.3
  * @brief	index based for when range-for fit better
- * @desc	ÀÎµ¦½º¸¦ »ç¿ëÇÏ´Â °Í º¸´Ù range base¸¦ »ç¿ëÇÏ´Â °ÍÀÌ ÁÁ´Ù.
+ * @desc	ì¸ë±ìŠ¤ë¥¼ ì‚¬ìš©í•˜ëŠ” ê²ƒ ë³´ë‹¤ range baseë¥¼ ì‚¬ìš©í•˜ëŠ” ê²ƒì´ ì¢‹ë‹¤.
  */
 void train_model(const std::vector<int>& data, auto& model)
 {
@@ -64,7 +64,7 @@ void train_model(const std::vector<int>& data, auto& model)
 /**
  * @no.4
  * @brief	rewriting std algorithms
- * @desc	¹«¾ğ°¡¸¦ ÇÒ¶§ std ¾Ë°í¸®ÁòÀ» »ç¿ëÇÏ´Â °ÍÀÌ ÁÁ´Ù.
+ * @desc	ë¬´ì–¸ê°€ë¥¼ í• ë•Œ std ì•Œê³ ë¦¬ì¦˜ì„ ì‚¬ìš©í•˜ëŠ” ê²ƒì´ ì¢‹ë‹¤.
  */
 void know_your_algorithms()
 {
@@ -76,7 +76,7 @@ void know_your_algorithms()
 /**
  * @no.5
  * @brief	using C array over std array
- * @desc	C ½ºÅ¸ÀÏÀÇ ¹è¿­ º¸´Ù ½ºÅÄ´Ùµå array¸¦ »ç¿ëÇÏ´Â °ÍÀÌ ÁÁ´Ù.
+ * @desc	C ìŠ¤íƒ€ì¼ì˜ ë°°ì—´ ë³´ë‹¤ ìŠ¤íƒ ë‹¤ë“œ arrayë¥¼ ì‚¬ìš©í•˜ëŠ” ê²ƒì´ ì¢‹ë‹¤.
  */
 void using_c_array()
 {
@@ -88,7 +88,7 @@ void using_c_array()
 /**
  * @no.6
  * @brief	any use of reinterpret cast
- * @desc	C ½ºÅ¸ÀÏÀÇ ¹è¿­ º¸´Ù ½ºÅÄ´Ùµå array¸¦ »ç¿ëÇÏ´Â °ÍÀÌ ÁÁ´Ù.
+ * @desc	C ìŠ¤íƒ€ì¼ì˜ ë°°ì—´ ë³´ë‹¤ ìŠ¤íƒ ë‹¤ë“œ arrayë¥¼ ì‚¬ìš©í•˜ëŠ” ê²ƒì´ ì¢‹ë‹¤.
  */
 void any_use_of_reinterpret_cast()
 {
@@ -110,7 +110,7 @@ void print_bytes2(const T& input)
 	const auto& bytes = std::bit_cast<bytearray, T>(input);
 }
 
-// ´ÙÀ½ ¹æ¹ıÀ» ÀÀ¿ëÇÏ¿© ¸¸µç bit field »ç¿ë¹ı ¹ı
+// ë‹¤ìŒ ë°©ë²•ì„ ì‘ìš©í•˜ì—¬ ë§Œë“  bit field ì‚¬ìš©ë²• ë²•
 typedef struct bitfield
 {
 	unsigned int a1 : 8;
@@ -127,7 +127,7 @@ void print_bytes3(const T& input)
 
 
 /**
- * @brief 16¹ø
+ * @brief 16ë²ˆ
  * @ Not Knowing about default vs value intialization
  */
 void default_vs_value_intialization()
