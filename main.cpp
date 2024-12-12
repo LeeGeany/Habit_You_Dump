@@ -251,8 +251,8 @@ public:
 
 /**
  * @no.15
- * @brief	thinking class members init in order of init list
- * @desc	생성자에서 초기화는 초기화 리스트의 선언 된 순서가 아닌 클래스의 멤버 선언 순서로 초기화 된다.
+ * @brief	thinking class memebers init in order of init list
+ * @desc	생성자에서 8초기화는 초기화 리스트의 선언 된 순서가 아닌 클래스의 멤버 선언 순서로 초기화 된다.
  *			따라서 영향성이 있는 멤버 변수들을 초기화 할떄 조심해야 한다.
  */
 class View
@@ -269,8 +269,9 @@ private:
 };
 
 /**
- * @brief 16번
- * @ Not Knowing about default vs value intialization
+ * @no.16
+ * @breif	Not Knowing about default vs value intialization
+ * @desc	변수 선언 시 쓰레기 값이 들어간다. {}을 사용하면 0으로 초기화 된다.
  */
 void default_vs_value_intialization()
 {
@@ -284,8 +285,66 @@ void default_vs_value_intialization()
 	int* y3 = new int();
 }
 
+/**
+ * @no.17
+ * @brief	MAGIC NUMBERS	
+ * @desc	const 변수의 이름을 잘 정하자. 컴파일러가 잘 최적화 해줄 것이다.
+ */
+float energy(float m)
+{
+	constexpr float SPEED_OF_LIGHT = 299792458.0;
+	return m * SPEED_OF_LIGHT * SPEED_OF_LIGHT;
+}
+
+/**
+ * @no.18
+ * @brief	Modifying a container while looping over it
+ * @desc	루프 문에서 컨테이너에 요소를 추가/삭제 할때 주의 해야 한다.
+ */
+void modify_while_iterating()
+{
+	std::vector<int> v{ 1,2,3,4 };
+	// resize & move element to a new location
+	// end pointer가 같은지 확인할 수 없다.
+	for (auto x : v)
+	{
+		v.push_back(x);
+	}
+
+	// 다음과 같이 iterator를 직접 사용하면 문제가 명확히 보인다.
+	for (auto it = v.begin(), end = v.end(); it != end; ++it)
+	{
+		v.push_back(*it);
+	}
+
+	// 다음과 같이 구현해야 문제를 해결 할 수 있다.
+	const std::size_t size = v.size();
+	for (std::size_t i = 0; i < size; ++i)
+	{
+		v.push_back(v[i]);
+	}
+
+	for (auto x : v)
+	{
+		std::cout << x;
+	}
+	std::cout << '\n';
+}
+
+/**
+ * @no.19
+ * @brief	returning std move of a local
+ * @desc	
+ */
+std::vector<int> make_vector(const int n)
+{
+	std::vector<int> v{ 1,2,3,4,5 };
+	return std::move(v);
+}
+
+
 int main(void)
 {
-	use_value();
+	std::vector ret = make_vector(3);
 	return 0;
 }
