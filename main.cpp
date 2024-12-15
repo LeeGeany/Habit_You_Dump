@@ -5,12 +5,15 @@
  */
 
 #include <iostream>
+#include <fstream>
 
 #include <string>
 #include <vector>
 #include <array>
 #include <bit>
 #include <unordered_map>
+
+#include <thread>
 
 #include <algorithm>
 
@@ -21,13 +24,13 @@
  *			또한 사용하는 부분만 선언해서 사용하자
  */
 
-//using namespace std;
-using std::string, std::cout, std::endl;
+using namespace std;
+//using std::string, std::cout, std::endl; // Over C++17
 
 void using_namespace_std()
 {
 	string s{ "hello, world!" };
-	cout << s << endl;
+	std::cout << s << std::endl;
 }
 
 /**
@@ -101,6 +104,8 @@ void any_use_of_reinterpret_cast()
 	auto x2 = reinterpret_cast<long long>(xp);
 }
 
+
+// Over C++20
 template<typename T>
 void print_bytes1(const T& input)
 {
@@ -187,6 +192,7 @@ void loop_map_items()
 		{"Blue",	"#0000FF"}
 	};
 
+	// Over C++17
 	for (const auto& [name, hex] : colors)
 	{
 		std::cout << "name : " << name << ", hex : " << hex << '\n';
@@ -210,6 +216,7 @@ values get_values_return_struct(const int n)
 
 void use_value()
 {
+	// Over C++17
 	auto [x, y] = get_values_return_struct(3);
 }
 
@@ -334,17 +341,170 @@ void modify_while_iterating()
 /**
  * @no.19
  * @brief	returning std move of a local
- * @desc	
+ * @desc	이런 리턴 방식은 하지 않는 것을 권고한다.
  */
 std::vector<int> make_vector(const int n)
 {
 	std::vector<int> v{ 1,2,3,4,5 };
+
+	// return value optimization
+	//return v;
+
 	return std::move(v);
 }
 
+/**
+ * @no.20
+ * @brief	thinking std move moves something
+ * @desc	move는 결국 right value로 변환하는 것이다.
+ */
+
+ /**
+  * @no.21
+  * @brief	thinking evaluation order is left to right
+  * @desc	find함수가 먼저 실행 되면서 다음과 같은 결과가 도출된다.
+  *			i have heard it works evenonlyyou don'eve in it
+  *			하지만 C++17 이상 부터는 기대값과 동일하게 출력된다.
+  */
+void function_evaluation_order_not_guaranteed()
+{
+	std::string s = "but i have heard it works even if you don't believe in it\n";
+	s.replace(0, 4, "")
+		.replace(s.find("even"), 4, "only")
+		.replace(s.find("don't"), 6, "");
+	std::cout << s;
+	std::cout << "exp : but i have heard it works even if you don't believe in it\n";
+}
+
+//int a();
+//int b();
+//int c();
+//int g(int, int, int);
+void function_evaluation_order_not_guaranteed2()
+{
+	// 함수가 a, b, c 순서대로 왼쪽부터 오른쪽 까지 실행 된다는 보장이 없다.
+	// 따라서 a, b, c 함수 간에 영향성이 있으면 문제가 발생 할 수 있다.
+	//g(a(), b(), c());
+}
+
+/**
+ * @no.23
+ * @brief	unnecessary heap allocation
+ * @desc	불필요한 동적 할당은 지양한다. 지역변수를 쓰자!
+ */
+void unnecessary_heap_allocation1()
+{
+	// heap allocation
+	int* number1 = new int(30);
+	delete(number1);
+
+	// stack allocation
+	int number2{30};
+}
+
+/**
+ * @no.24
+ * @brief	Not using unique ptr and shared ptr
+ * @desc	스마트 포인터를 사용하자
+ */
+void unnecessary_heap_allocation2()
+{
+	std::unique_ptr<int> iptr = std::make_unique<int>(30);
+}
+
+/**
+ * @no.25
+ * @brief	any use of new and delete
+ * @desc	아래와 같이 생성자에서 동적할당을 하고 소멸자에서 delete를 하는 행동을 멤버변수로 스마트 포인터를 두어 해결하라.
+ *			클래스가 오브젝트의 소유권을 생각하지 마라. 그것은 별개의 일이다.
+ */
+struct SomeResource {};
+
+class widget 
+{
+public:
+	widget() : m_uptr(std::make_unique<SomeResource>()) {};
+
+private:
+	//SomeResource* meta;
+	std::unique_ptr<SomeResource> m_uptr;
+};
+
+/**
+ * @no.26
+ * @brief	any manual resource management
+ * @desc	파일 읽기/쓰기와 같이 기능을 하는 오브젝트는 수동으로 생성/삭제가 아닌 RAII를 사용하여 직접하도록 하여야 한다.
+ */
+void read_from_a_file(char* name)
+{
+	std::ifstream input{ name }; // RAII
+	// 자동으로 스코프에서 나가면 삭제된다.
+}
+
+/**
+ * @no.27
+ * @brief	Thinking raw pointers are bad
+ * @desc	포인터가 소유권을 따지지 않는 상황에서는 스마트 포인터를 사용하는 것 보다는 raw 포인터를 사용하는 것이 좋다.
+ */
+
+ /**
+  * @no.28
+  * @brief	using shared ptr when unique ptr would do
+  * @desc	unique_ptr에서 shared로 move하는 것은 쉽지만, shared_ptr에서 unique_ptr로 이동하는 것은 문제가 발생할 수 있다.
+  *			따라서 unique_ptr이 사용될 수 있으면 최대한 unique_ptr를 사용하자
+  */
+
+  /**
+   * @no.29
+   * @brief	Thinking shared ptr is thread-safe
+   * @desc	
+   */
+struct Resource
+{
+	int x{0};
+};
+
+void worker(std::shared_ptr<Resource> noisy)
+{
+	for (int i = 0; i < 50000; ++i)
+	{
+		noisy->x++;
+	}
+}
+
+void share_ptr_is_NOT_threadsafe()
+{
+	auto r = std::make_shared<Resource>();
+	
+	std::thread t1(worker, r);
+	std::thread t2(worker, r);
+
+	t1.join();
+	t2.join();
+
+	std::cout << r->x << '\n';
+}
+
+/**
+ * @no.30
+ * @brief	Mixing up const ptr vs ptr to const
+ */
+void const_ponter_vs_pointer_to_const()
+{
+	int x = 0;
+
+	const int* ptr1 = &x;	// 포인터 주소값은 변경 가능하지만, 포인터가 가르키는 주소에 있는 내부 값은 변경 불가능
+	int const* ptr2 = &x;	// x의 값을 변경할 수 없다. (*ptr2의 값을 변경할 수 없음)
+	int* const ptr3 = &x;	// 포인터 주소값은 변경 불가능하지만, 포인터가 가르키는 주소에 있는 내부 값은 변경 가능
+}
+
+/**
+ * @no.31
+ * @brief	ignoring compiler warning
+ */
 
 int main(void)
 {
-	std::vector ret = make_vector(3);
+	share_ptr_is_NOT_threadsafe();
 	return 0;
 }
